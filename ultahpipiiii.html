@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Haviva — Happy Birthday</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffd1dc, #f9c0ff);
+    color: #333;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: all 0.6s ease;
+  }
+
+  img {
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 15px;
+  }
+
+  h2 {
+    color: #e0568a;
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 30px;
+    font-size: 14px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #ff8fab, #fcb1d3);
+    color: white;
+    transition: transform 0.2s;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+  }
+
+  .theme-buttons {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    gap: 5px;
+  }
+
+  .theme-buttons button {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .fade {
+    animation: fadeIn 1s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .heart {
+    position: fixed;
+    width: 15px;
+    height: 15px;
+    background: pink;
+    opacity: 0.7;
+    transform: rotate(45deg);
+    animation: floatUp 6s linear infinite;
+  }
+
+  .heart::before, .heart::after {
+    content: "";
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: pink;
+    border-radius: 50%;
+  }
+
+  .heart::before {
+    top: -7px;
+    left: 0;
+  }
+
+  .heart::after {
+    left: 7px;
+    top: 0;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+    100% { transform: translateY(-100vh) rotate(45deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+  <div class="theme-buttons">
+    <button onclick="setTheme('pink')">Pink</button>
+    <button onclick="setTheme('purple')">Purple</button>
+    <button onclick="setTheme('blue')">Blue</button>
+  </div>
+
+  <div class="container fade" id="slide">
+    <img id="photo" src="https://i.imgur.com/Xn2qbWK.jpg" alt="Foto 1" style="width : 80% ; border-radius : 15px ;">
+    <h2 id="title">Selamat Ulang Tahun, PIPII 🎉</h2>
+    <p id="text">Hari ini aku berterima kasih karena kamu hadir di hidupku. Semoga selalu sehat, diberkati, dan bahagia setiap hari 💖</p>
+    <div class="buttons">
+      <button onclick="prevSlide()">Before</button>
+      <button onclick="toggleMusic()">🎵 Song</button>
+      <button onclick="nextSlide()">Next</button>
+    </div>
+  </div>
+
+  <audio id="bgmusic" src="https://cdn.jsdelivr.net/gh/iamyuuki/audio-files/love-wave-to-earth.mp3" loop></audio>
+
+  <script>
+    const slides = [
+      {
+        img: "https://i.imgur.com/Xn2qbWK.jpg",
+        title: "Selamat Ulang Tahun, PIPII 🎉",
+        text: "Hari ini aku berterima kasih karena kamu hadir di hidupku. Semoga selalu sehat, diberkati, dan bahagia setiap hari 💖"
+      },
+      {
+        img: "https://i.imgur.com/Xn2qbWK.jpg",
+        title: "Terima Kasih, Sayang 💕",
+        text: "Terima kasih sudah selalu sabar, selalu ada, dan membuat aku merasa cukup dalam segala hal."
+      },
+      {
+        img: "https://i.imgur.com/Xn2qbWK.jpg",
+        title: "Untuk Haviva 🌷",
+        text: "Semoga setiap langkahmu penuh cinta dan damai. Aku selalu dukung kamu, selamanya 💞"
+      }
+    ];
+
+    let current = 0;
+    const photo = document.getElementById("photo");
+    const title = document.getElementById("title");
+    const text = document.getElementById("text");
+    const slideDiv = document.getElementById("slide");
+    const music = document.getElementById("bgmusic");
+
+    function nextSlide() {
+      current = (current + 1) % slides.length;
+      updateSlide();
+    }
+
+    function prevSlide() {
+      current = (current - 1 + slides.length) % slides.length;
+      updateSlide();
+    }
+
+    function updateSlide() {
+      slideDiv.classList.remove("fade");
+      void slideDiv.offsetWidth;
+      slideDiv.classList.add("fade");
+      const s = slides[current];
+      photo.src = s.img;
+      title.innerText = s.title;
+      text.innerText = s.text;
+    }
+
+    function toggleMusic() {
+      if (music.paused) {
+        music.play();
+      } else {
+        music.pause();
+      }
+    }
+
+    function setTheme(color) {
+      const body = document.body;
+      if (color === "pink") body.style.background = "linear-gradient(135deg, #ffd1dc, #f9c0ff)";
+      if (color === "purple") body.style.background = "linear-gradient(135deg, #c3b1e1, #f9c0ff)";
+      if (color === "blue") body.style.background = "linear-gradient(135deg, #a0e9ff, #f9c0ff)";
+    }
+
+    // Floating hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHeart, 500);
+  </script>
+</body>
+</html>
